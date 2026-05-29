@@ -15,21 +15,22 @@ def breadth_first_search(initial_state):
 
     frontier = deque()
     frontier.append(node)
-    reached = []
+    reached = {str(initial_state)}
 
     while frontier:
 
         node = frontier.popleft()
-        reached.append(node["state"])
 
         for action in actions(node["state"]):
             child = child_node(node, action)
+            child_state_str = str(child["state"])
 
-            if child["state"] not in reached and not in_frontier(frontier, child["state"]):
+            if child_state_str not in reached:
 
                 if goal_test(child["state"]):
                     return solution(child)
                     
+                reached.add(child_state_str)
                 frontier.append(child)
 
     return "Failure"

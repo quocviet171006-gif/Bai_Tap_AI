@@ -74,6 +74,34 @@ try:
 except ImportError:
     astar = None
 
+try:
+    import Vacuum_Cleaner_IDAStar
+    idastar = Vacuum_Cleaner_IDAStar.ida_star_search
+    Vacuum_Cleaner_IDAStar.GUI_LOGGER = gui_logger
+except ImportError:
+    idastar = None
+
+try:
+    import Vacuum_Cleaner_Simple_Hill_Climbing
+    shc = Vacuum_Cleaner_Simple_Hill_Climbing.simple_hill_climbing
+    Vacuum_Cleaner_Simple_Hill_Climbing.GUI_LOGGER = gui_logger
+except ImportError:
+    shc = None
+
+try:
+    import Vacuum_Cleaner_Steepest_Ascent_Hill_Climbing
+    sahc = Vacuum_Cleaner_Steepest_Ascent_Hill_Climbing.steepest_ascent_hill_climbing
+    Vacuum_Cleaner_Steepest_Ascent_Hill_Climbing.GUI_LOGGER = gui_logger
+except ImportError:
+    sahc = None
+
+try:
+    import Vacuum_Cleaner_Stochastic_Hill_Climbing
+    sthc = Vacuum_Cleaner_Stochastic_Hill_Climbing.stochastic_hill_climbing
+    Vacuum_Cleaner_Stochastic_Hill_Climbing.GUI_LOGGER = gui_logger
+except ImportError:
+    sthc = None
+
 class Vacuum_GUI:
     def __init__(self, root):
         self.root = root
@@ -130,15 +158,15 @@ class Vacuum_GUI:
         map_tools.pack(side=tk.RIGHT, padx=30, pady=20)
         
         tk.Label(map_tools, text="Grid:", font=("Segoe UI", 10, "bold"), fg=self.TEXT_MUTED, bg=self.BG_PANEL).pack(side=tk.LEFT, padx=(0, 10))
-        self.spin_rows = tk.Spinbox(map_tools, from_=3, to=20, width=3, font=("Segoe UI", 11, "bold"), bg=self.BG_CARD, fg=self.CYAN, bd=0, buttonbackground=self.BG_CARD)
+        self.spin_rows = tk.Spinbox(map_tools, from_=2, to=20, width=3, font=("Segoe UI", 11, "bold"), bg=self.BG_CARD, fg=self.CYAN, bd=0, buttonbackground=self.BG_CARD)
         self.spin_rows.delete(0, "end")
-        self.spin_rows.insert(0, "5")
+        self.spin_rows.insert(0, "3")
         self.spin_rows.pack(side=tk.LEFT)
         
         tk.Label(map_tools, text="x", font=("Segoe UI", 12), fg=self.TEXT_MUTED, bg=self.BG_PANEL).pack(side=tk.LEFT, padx=5)
-        self.spin_cols = tk.Spinbox(map_tools, from_=3, to=20, width=3, font=("Segoe UI", 11, "bold"), bg=self.BG_CARD, fg=self.CYAN, bd=0, buttonbackground=self.BG_CARD)
+        self.spin_cols = tk.Spinbox(map_tools, from_=2, to=20, width=3, font=("Segoe UI", 11, "bold"), bg=self.BG_CARD, fg=self.CYAN, bd=0, buttonbackground=self.BG_CARD)
         self.spin_cols.delete(0, "end")
-        self.spin_cols.insert(0, "5")
+        self.spin_cols.insert(0, "3")
         self.spin_cols.pack(side=tk.LEFT, padx=(0, 15))
         
         btn_gen = tk.Button(map_tools, text="GENERATE MAP", bg=self.PURPLE, fg="white", font=("Segoe UI", 10, "bold"), bd=0, cursor="hand2", padx=15, pady=5, command=self.generate_random_map)
@@ -188,7 +216,11 @@ class Vacuum_GUI:
             ("IDS 1", "IDS_1"), ("IDS 2", "IDS_2"),
             ("Uniform Cost Search", "UCS"),
             ("Greedy Search", "Greedy"),
-            ("A* Search", "AStar")
+            ("A* Search", "AStar"),
+            ("IDA* Search", "IDAStar"),
+            ("Simple Hill Climbing", "SHC"),
+            ("Steepest Ascent Hill Climbing", "SAHC"),
+            ("Stochastic Hill Climbing", "StHC")
         ]
         
         self.algo_map = {text: val for text, val in algos}
@@ -417,6 +449,10 @@ class Vacuum_GUI:
             elif algo == "UCS" and ucs: result = ucs(copy_state(self.initial_room))
             elif algo == "Greedy" and greedy: result = greedy(copy_state(self.initial_room))
             elif algo == "AStar" and astar: result = astar(copy_state(self.initial_room))
+            elif algo == "IDAStar" and idastar: result = idastar(copy_state(self.initial_room))
+            elif algo == "SHC" and shc: result = shc(copy_state(self.initial_room))
+            elif algo == "SAHC" and sahc: result = sahc(copy_state(self.initial_room))
+            elif algo == "StHC" and sthc: result = sthc(copy_state(self.initial_room))
             else:
                 self.log_msg(f"ERR: Module {algo} offline!")
                 return

@@ -15,17 +15,21 @@ def depth_first_search(initial_state):
 
     frontier = []
     frontier.append(node)
-    reached = []
+    reached = set()
 
     while frontier:
 
         node = frontier.pop()
-        reached.append(node["state"])
+        state_str = str(node["state"])
+
+        if state_str in reached:
+            continue
+        reached.add(state_str)
 
         for action in actions(node["state"]):
             child = child_node(node, action)
 
-            if child["state"] not in reached and not in_frontier(frontier, child["state"]):
+            if str(child["state"]) not in reached:
                 if goal_test(child["state"]):
                     return solution(child)
                 frontier.append(child)
