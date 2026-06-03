@@ -102,6 +102,20 @@ try:
 except ImportError:
     sthc = None
 
+try:
+    import Vaccum_Cleaner_Local_Beam_Search
+    lbs = Vaccum_Cleaner_Local_Beam_Search.local_beam_search
+    Vaccum_Cleaner_Local_Beam_Search.GUI_LOGGER = gui_logger
+except ImportError:
+    lbs = None
+
+try:
+    import Vaccum_Cleaner_Random_Restart_Hill_Climbing
+    rrhc = Vaccum_Cleaner_Random_Restart_Hill_Climbing.random_restart_hill_climbing
+    Vaccum_Cleaner_Random_Restart_Hill_Climbing.GUI_LOGGER = gui_logger
+except ImportError:
+    rrhc = None
+
 class Vacuum_GUI:
     def __init__(self, root):
         self.root = root
@@ -220,7 +234,9 @@ class Vacuum_GUI:
             ("IDA* Search", "IDAStar"),
             ("Simple Hill Climbing", "SHC"),
             ("Steepest Ascent Hill Climbing", "SAHC"),
-            ("Stochastic Hill Climbing", "StHC")
+            ("Stochastic Hill Climbing", "StHC"),
+            ("Local Beam Search", "LBS"),
+            ("Random Restart Hill Climbing", "RRHC")
         ]
         
         self.algo_map = {text: val for text, val in algos}
@@ -453,6 +469,8 @@ class Vacuum_GUI:
             elif algo == "SHC" and shc: result = shc(copy_state(self.initial_room))
             elif algo == "SAHC" and sahc: result = sahc(copy_state(self.initial_room))
             elif algo == "StHC" and sthc: result = sthc(copy_state(self.initial_room))
+            elif algo == "LBS" and lbs: result = lbs(copy_state(self.initial_room))
+            elif algo == "RRHC" and rrhc: result = rrhc(copy_state(self.initial_room))
             else:
                 self.log_msg(f"ERR: Module {algo} offline!")
                 return
