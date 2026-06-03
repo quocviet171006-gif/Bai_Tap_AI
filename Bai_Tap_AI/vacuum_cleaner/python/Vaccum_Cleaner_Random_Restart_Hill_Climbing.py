@@ -62,4 +62,3 @@ def random_restart_hill_climbing(initial_state, max_restarts=10):
             return solution(result_node)
             
     return "Failure"
-

@@ -47,4 +47,3 @@ def local_beam_search(initial_state, k=3):
             
         candidates.sort(key=lambda x: x["cost"])
         beam = candidates[:k]
-
