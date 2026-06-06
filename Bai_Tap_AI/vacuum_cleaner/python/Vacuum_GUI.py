@@ -116,6 +116,13 @@ try:
 except ImportError:
     rrhc = None
 
+try:
+    import Vacuum_Cleaner_SimulatedAnnealing
+    sa = Vacuum_Cleaner_SimulatedAnnealing.simulated_annealing
+    Vacuum_Cleaner_SimulatedAnnealing.GUI_LOGGER = gui_logger
+except ImportError:
+    sa = None
+
 class Vacuum_GUI:
     def __init__(self, root):
         self.root = root
@@ -236,7 +243,8 @@ class Vacuum_GUI:
             ("Steepest Ascent Hill Climbing", "SAHC"),
             ("Stochastic Hill Climbing", "StHC"),
             ("Local Beam Search", "LBS"),
-            ("Random Restart Hill Climbing", "RRHC")
+            ("Random Restart Hill Climbing", "RRHC"),
+            ("Simulated Annealing", "SA")
         ]
         
         self.algo_map = {text: val for text, val in algos}
@@ -471,6 +479,7 @@ class Vacuum_GUI:
             elif algo == "StHC" and sthc: result = sthc(copy_state(self.initial_room))
             elif algo == "LBS" and lbs: result = lbs(copy_state(self.initial_room))
             elif algo == "RRHC" and rrhc: result = rrhc(copy_state(self.initial_room))
+            elif algo == "SA" and sa: result = sa(copy_state(self.initial_room))
             else:
                 self.log_msg(f"ERR: Module {algo} offline!")
                 return

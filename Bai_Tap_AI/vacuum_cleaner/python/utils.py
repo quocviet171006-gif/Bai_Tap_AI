@@ -67,6 +67,8 @@ def child_node(parent, action):
 
     if new_state[lct_row][lct_col] == 2:
         new_state[lct_row][lct_col] = 0
+    elif new_state[lct_row][lct_col] == 3:
+        new_state[lct_row][lct_col] = 1
 
     if new_state[nx][ny] == 0:
         new_state[nx][ny] = 2
