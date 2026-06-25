@@ -4,8 +4,22 @@ import threading
 import time
 import random
 import sys
+import os
 
 from utils import find_robot, copy_state
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Thư mục gốc python/ và environment/
+python_dir = os.path.dirname(current_dir)
+environment_dir = os.path.join(python_dir, "environment")
+
+# Thêm tất cả thư mục chứa thuật toán vào sys.path
+sys.path.insert(0, python_dir)  # để import utils.py
+sys.path.append(os.path.join(environment_dir, "Uninformed_Search"))
+sys.path.append(os.path.join(environment_dir, "Informed_Search"))
+sys.path.append(os.path.join(environment_dir, "Local_Search"))
+sys.path.append(os.path.join(environment_dir, "Nondeterministic", "Sensorless"))
+sys.path.append(os.path.join(environment_dir, "Nondeterministic", "Partial_observable"))
 
 def gui_logger(node, frontier, reached):
     if hasattr(sys, 'app_gui') and sys.app_gui:
@@ -103,16 +117,16 @@ except ImportError:
     sthc = None
 
 try:
-    import Vaccum_Cleaner_Local_Beam_Search
-    lbs = Vaccum_Cleaner_Local_Beam_Search.local_beam_search
-    Vaccum_Cleaner_Local_Beam_Search.GUI_LOGGER = gui_logger
+    import Vacuum_Cleaner_Local_Beam_Search
+    lbs = Vacuum_Cleaner_Local_Beam_Search.local_beam_search
+    Vacuum_Cleaner_Local_Beam_Search.GUI_LOGGER = gui_logger
 except ImportError:
     lbs = None
 
 try:
-    import Vaccum_Cleaner_Random_Restart_Hill_Climbing
-    rrhc = Vaccum_Cleaner_Random_Restart_Hill_Climbing.random_restart_hill_climbing
-    Vaccum_Cleaner_Random_Restart_Hill_Climbing.GUI_LOGGER = gui_logger
+    import Vacuum_Cleaner_Random_Restart_Hill_Climbing
+    rrhc = Vacuum_Cleaner_Random_Restart_Hill_Climbing.random_restart_hill_climbing
+    Vacuum_Cleaner_Random_Restart_Hill_Climbing.GUI_LOGGER = gui_logger
 except ImportError:
     rrhc = None
 
@@ -122,6 +136,20 @@ try:
     Vacuum_Cleaner_SimulatedAnnealing.GUI_LOGGER = gui_logger
 except ImportError:
     sa = None
+
+try:
+    import Vacuum_Cleaner_DFS_Sensorless_2
+    dfs_sensorless = Vacuum_Cleaner_DFS_Sensorless_2.depth_first_search_sensorless
+    Vacuum_Cleaner_DFS_Sensorless_2.GUI_LOGGER = gui_logger
+except ImportError:
+    dfs_sensorless = None
+
+try:
+    import Vacuum_Cleaner_And_Or_Partial
+    and_or_partial = Vacuum_Cleaner_And_Or_Partial.and_or_graph_search
+    Vacuum_Cleaner_And_Or_Partial.GUI_LOGGER = gui_logger
+except ImportError:
+    and_or_partial = None
 
 class Vacuum_GUI:
     def __init__(self, root):
@@ -244,7 +272,9 @@ class Vacuum_GUI:
             ("Stochastic Hill Climbing", "StHC"),
             ("Local Beam Search", "LBS"),
             ("Random Restart Hill Climbing", "RRHC"),
-            ("Simulated Annealing", "SA")
+            ("Simulated Annealing", "SA"),
+            ("DFS Sensorless 2", "DFS_Sensorless_2"),
+            ("And-Or Partial", "And_Or_Partial")
         ]
         
         self.algo_map = {text: val for text, val in algos}
@@ -480,6 +510,8 @@ class Vacuum_GUI:
             elif algo == "LBS" and lbs: result = lbs(copy_state(self.initial_room))
             elif algo == "RRHC" and rrhc: result = rrhc(copy_state(self.initial_room))
             elif algo == "SA" and sa: result = sa(copy_state(self.initial_room))
+            elif algo == "DFS_Sensorless_2" and dfs_sensorless: result = dfs_sensorless(copy_state(self.initial_room))
+            elif algo == "And_Or_Partial" and and_or_partial: result = and_or_partial(copy_state(self.initial_room))
             else:
                 self.log_msg(f"ERR: Module {algo} offline!")
                 return
@@ -496,10 +528,19 @@ class Vacuum_GUI:
         else:
             self.path_solution = result
             self.current_step_idx = 0
-            self.lbl_map_status.config(text=f"Path acquired: {len(result)} moves.", fg=self.GREEN)
-            self.update_path_entry(" ➔ ".join(result))
             
-            self.log_msg(f"Đã tìm thấy đường đi trong {exec_time:.2f}ms.")
+            is_conditional_plan = (isinstance(self.path_solution, list) and 
+                                   len(self.path_solution) == 2 and 
+                                   isinstance(self.path_solution[1], dict))
+            if is_conditional_plan:
+                self.lbl_map_status.config(text=f"Conditional Path acquired.", fg=self.GREEN)
+                self.update_path_entry("Conditional Plan")
+                self.log_msg(f"Đã tìm thấy cây đường đi trong {exec_time:.2f}ms.")
+            else:
+                self.lbl_map_status.config(text=f"Path acquired: {len(result)} moves.", fg=self.GREEN)
+                self.update_path_entry(" ➔ ".join(result))
+                self.log_msg(f"Đã tìm thấy đường đi trong {exec_time:.2f}ms.")
+                
             self.log_msg(f"Số lượng Node đã duyệt (Explored/Reached Nodes): {self.explored_nodes_count}")
             self.log_msg(f"Chuỗi hành động tối ưu: {result}")
 
@@ -517,6 +558,12 @@ class Vacuum_GUI:
             elif action == "Left": nc -= 1
             elif action == "Right": nc += 1
             
+            # Check bounds and walls
+            if (nr < 0 or nr >= len(self.current_room) or 
+                nc < 0 or nc >= len(self.current_room[0]) or 
+                self.current_room[nr][nc] == -1):
+                return # Do nothing if hitting wall or boundary
+                
             self.current_room[r][c] = 1 if old_val == 3 else 0
             if self.current_room[nr][nc] == 1:
                 self.current_room[nr][nc] = 3
@@ -529,15 +576,18 @@ class Vacuum_GUI:
         if not self.path_solution:
             return
             
-        if self.current_step_idx < len(self.path_solution):
-            action = self.path_solution[self.current_step_idx]
-            step_num = self.current_step_idx + 1
-            total_steps = len(self.path_solution)
+        is_conditional_plan = (isinstance(self.path_solution, list) and 
+                               len(self.path_solution) == 2 and 
+                               isinstance(self.path_solution[1], dict))
+                               
+        if is_conditional_plan:
+            action = self.path_solution[0]
+            contingencies = self.path_solution[1]
             
             r, c = find_robot(self.current_room)
             
             if action == "Suck":
-                self.log_msg(f"Bước {step_num}/{total_steps}: Phát hiện bụi! Robot đang hút [Suck].")
+                self.log_msg(f"Phát hiện bụi! Robot đang hút [Suck].")
                 self.log_msg(f"Thông báo trạng thái ô: Ô ({r}, {c}) đã được làm sạch.")
             else:
                 nr, nc = r, c
@@ -545,23 +595,63 @@ class Vacuum_GUI:
                 elif action == "Down": nr += 1
                 elif action == "Left": nc -= 1
                 elif action == "Right": nc += 1
-                self.log_msg(f"Bước {step_num}/{total_steps}: Robot di chuyển [{action}] sang ô ({nr}, {nc}).")
+                self.log_msg(f"Robot di chuyển [{action}] sang ô ({nr}, {nc}).")
                 
             self.execute_action(action)
-            self.current_step_idx += 1
             
-            if self.current_step_idx == len(self.path_solution):
+            r, c = find_robot(self.current_room)
+            status = self.current_room[r][c]
+            percept = (r, c, status)
+            
+            if percept in contingencies:
+                self.path_solution = contingencies[percept]
+            else:
+                self.path_solution = []
+                
+            if not self.path_solution:
                 self.log_msg("[Thành công] Robot đã dọn sạch toàn bộ phòng!")
                 self.lbl_map_status.config(text="MISSION ACCOMPLISHED. Area clean.", fg=self.CYAN)
                 self.is_running_auto = False
                 self.btn_auto.config(text="▶ Auto Play", fg=self.TEXT_MAIN)
+                
+        else:
+            if self.current_step_idx < len(self.path_solution):
+                action = self.path_solution[self.current_step_idx]
+                step_num = self.current_step_idx + 1
+                total_steps = len(self.path_solution)
+                
+                r, c = find_robot(self.current_room)
+                
+                if action == "Suck":
+                    self.log_msg(f"Bước {step_num}/{total_steps}: Phát hiện bụi! Robot đang hút [Suck].")
+                    self.log_msg(f"Thông báo trạng thái ô: Ô ({r}, {c}) đã được làm sạch.")
+                else:
+                    nr, nc = r, c
+                    if action == "Up": nr -= 1
+                    elif action == "Down": nr += 1
+                    elif action == "Left": nc -= 1
+                    elif action == "Right": nc += 1
+                    self.log_msg(f"Bước {step_num}/{total_steps}: Robot di chuyển [{action}] sang ô ({nr}, {nc}).")
+                    
+                self.execute_action(action)
+                self.current_step_idx += 1
+                
+                if self.current_step_idx == len(self.path_solution):
+                    self.log_msg("[Thành công] Robot đã dọn sạch toàn bộ phòng!")
+                    self.lbl_map_status.config(text="MISSION ACCOMPLISHED. Area clean.", fg=self.CYAN)
+                    self.is_running_auto = False
+                    self.btn_auto.config(text="▶ Auto Play", fg=self.TEXT_MAIN)
 
     def toggle_auto_run(self):
         if not self.path_solution:
             self.log_msg("WRN: No route found. Please START SEARCH.")
             return
             
-        if self.current_step_idx >= len(self.path_solution):
+        is_conditional_plan = (isinstance(self.path_solution, list) and 
+                               len(self.path_solution) == 2 and 
+                               isinstance(self.path_solution[1], dict))
+                               
+        if not is_conditional_plan and self.current_step_idx >= len(self.path_solution):
             self.log_msg("SYS: Route already completed.")
             return
             
@@ -576,12 +666,11 @@ class Vacuum_GUI:
             self.auto_step()
 
     def auto_step(self):
-        if self.is_running_auto and self.current_step_idx < len(self.path_solution):
-            self.next_step()
-            speed_ms = int(self.speed_scale.get())
-            self.root.after(speed_ms, self.auto_step)
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = Vacuum_GUI(root)
-    root.mainloop()
+        is_conditional_plan = (isinstance(self.path_solution, list) and 
+                               len(self.path_solution) == 2 and 
+                               isinstance(self.path_solution[1], dict))
+        if self.is_running_auto:
+            if is_conditional_plan or self.current_step_idx < len(self.path_solution):
+                self.next_step()
+                speed_ms = int(self.speed_scale.get())
+                self.root.after(speed_ms, self.auto_step)

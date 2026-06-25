@@ -1,8 +1,11 @@
+# BFS sớm kiểm tra đích: goal_test được gọi ngay khi sinh node con
+# Giúp thoát sớm hơn BFS_1 mà không cần chờ pop ra khỏi frontier mới kiểm tra
 from collections import deque
 from utils import goal_test, actions, child_node, solution, in_frontier
 
 def breadth_first_search(initial_state):
 
+    # Khởi tạo node gốc từ trạng thái ban đầu
     node = {
         "state": initial_state,
         "parent": None,
@@ -10,6 +13,7 @@ def breadth_first_search(initial_state):
         "cost": 0
     }
 
+    # Kiểm tra ngay nếu trạng thái đầu đã là đích
     if goal_test(node["state"]):
         return solution(node)
 
@@ -18,7 +22,6 @@ def breadth_first_search(initial_state):
     reached = {str(initial_state)}
 
     while frontier:
-
         node = frontier.popleft()
 
         for action in actions(node["state"]):
@@ -26,10 +29,10 @@ def breadth_first_search(initial_state):
             child_state_str = str(child["state"])
 
             if child_state_str not in reached:
-
+                # Kiểm tra đích ngay khi sinh ra node con để thoát sớm hơn
                 if goal_test(child["state"]):
                     return solution(child)
-                    
+
                 reached.add(child_state_str)
                 frontier.append(child)
 
