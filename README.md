@@ -29,30 +29,20 @@ Dự án tập trung vào việc **triển khai và so sánh** các thuật toá
 ## 📁 Cấu trúc dự án
 
 ```bash
-Bai_Tap_AI/vacuum_cleaner/
-├── assets/                          # Ảnh, GIF minh họa giao diện
-├── jupyter/
-│   ├── 8puzzle/                     # Bài toán 8-puzzle (liên quan)
-│   ├── Agent/                       # Notebook mô hình agent
-│   ├── BFS/
-│   ├── DFS/
-│   ├── IDS/
-│   ├── UCS/
-│   └── ...                          # Các notebook phân tích thuật toán
+vacuum_cleaner/
+├── assets/                  # Ảnh, GIF minh họa giao diện và demo
+├── jupyter/                 # Các tệp Notebook phân tích thuật toán
 ├── python/
-│   ├── Vacuum_Cleaner_AStar.py
-│   ├── Vacuum_Cleaner_BFS_1.py
-│   ├── Vacuum_Cleaner_BFS_2.py
-│   ├── Vacuum_Cleaner_DFS_1.py
-│   ├── Vacuum_Cleaner_DFS_2.py
-│   ├── Vacuum_Cleaner_UCS.py
-│   ├── Vacuum_Cleaner_IDS_1.py
-│   ├── Vacuum_Cleaner_IDS_2.py
-│   ├── Vacuum_Cleaner_Greedy_Search.py
-│   ├── Vacuum_Cleaner_GBF.py
-│   ├── Vacuum_GUI.py                # Giao diện đồ họa
-│   └── utils.py                     # Các hàm tiện ích (Node, State, Heuristic...)
-└── README.md
+│   ├── environment/         # Các thuật toán giải bài toán hút bụi
+│   │   ├── Informed_Search/ # A*, Greedy, IDS, IDStar...
+│   │   ├── Local_Search/    # Hill Climbing, Simulated Annealing, Beam Search...
+│   │   ├── Nondeterministic/
+│   │   │   ├── Partial_observable/
+│   │   │   └── Sensorless/
+│   │   └── Uninformed_Search/ # BFS, DFS, UCS...
+│   ├── gui/                 # Giao diện đồ họa (Vacuum_GUI.py)
+│   ├── main.py              # File chạy chính
+└── └── utils.py             # Các hàm tiện ích dùng chung
 
 ```
 
