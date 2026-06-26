@@ -81,10 +81,11 @@ Mở các file .ipynb tương ứng với thuật toán muốn phân tích.
  
 ## 4. 🎥 Minh họa
 
-(Thêm GIF từ thư mục assets/ vào đây)
-<img src="assets/demo_gui.gif" alt="Vacuum Cleaner GUI">
-<img src="assets/astar_demo.gif" alt="A* Search Animation">
-<img src="assets/comparison.gif" alt="BFS vs A* Comparison">
+<img src="vacuum_cleaner/assets/A_Star.gif" alt="A* Search Animation">
+<img src="vacuum_cleaner/assets/BFS.gif" alt="BFS Search Animation">
+<img src="vacuum_cleaner/assets/DFS.gif" alt="DFS Search Animation">
+<img src="vacuum_cleaner/assets/IDA_Star.gif" alt="IDA* Search Animation">
+<img src="vacuum_cleaner/assets/UCS.gif" alt="UCS Search Animation">
 
 ## 5. 📈 Phân tích kết quả
 
