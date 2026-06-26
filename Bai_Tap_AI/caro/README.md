@@ -153,3 +153,11 @@ Trò chơi kết thúc khi xảy ra một trong các trường hợp:
 Chương trình đã cài đặt được một trò chơi Caro 3x3 có AI, hỗ trợ nhiều thuật toán tìm kiếm đối kháng và có giao diện để quan sát trực tiếp quá trình AI chọn nước đi.
 
 Thông qua bài này, có thể hiểu rõ hơn cách các thuật toán Minimax, Alpha-Beta Pruning và Expectimax được áp dụng trong trò chơi hai người.
+
+## 10. 👥 Tác giả
+
+Tên sinh viên: Nguyễn Quốc Việt
+
+MSSV: 24110381
+
+Đồ án môn học: Trí Tuệ Nhân Tạo

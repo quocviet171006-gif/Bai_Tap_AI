@@ -53,4 +53,6 @@ Chạy từng cell trong notebook để xem tiến trình tô màu được tr�
 ## 5. Thông tin tác giả
 Sinh viên thực hiện: Nguyễn Quốc Việt
 
+MSSV: 24110381
+
 Đồ án môn học: Trí Tuệ Nhân Tạo

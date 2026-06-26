@@ -132,4 +132,5 @@ Phù hợp cho các môi trường lưới cực lớn hoặc bài toán biến 
 Tên sinh viên: Nguyễn Quốc Việt
 
 MSSV: 24110381
-đây là readme của tôi nhưng hình thức nó ch đẹp lắm
+
+Đồ án môn học: Trí Tuệ Nhân Tạo
