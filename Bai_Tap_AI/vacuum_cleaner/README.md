@@ -81,19 +81,29 @@ Mở các file .ipynb tương ứng với thuật toán muốn phân tích.
  
 ## 4. 🎥 Minh họa
 
-(Thêm GIF từ thư mục assets/ vào đây)
-<img src="assets/demo_gui.gif" alt="Vacuum Cleaner GUI">
-<img src="assets/astar_demo.gif" alt="A* Search Animation">
-<img src="assets/comparison.gif" alt="BFS vs A* Comparison">
+### Minh hoạ thuật toán A*
+<img src="assets/A_Star.gif" alt="A* Search Animation">
+
+### Minh hoạ thuật toán BFS
+<img src="assets/BFS.gif" alt="BFS Search Animation">
+
+### Minh hoạ thuật toán DFS
+<img src="assets/DFS.gif" alt="DFS Search Animation">
+
+### Minh hoạ thuật toán IDA*
+<img src="assets/IDA_Star.gif" alt="IDA* Search Animation">
+
+### Minh hoạ thuật toán UCS
+<img src="assets/UCS.gif" alt="UCS Search Animation">
 
 ## 5. 📈 Phân tích kết quả
 
 | Thuật toán | Loại tìm kiếm | Độ tối ưu | Độ phức tạp bộ nhớ | Ghi chú |
 | :--- | :---: | :---: | :---: | :--- |
-| **BFS** | Uninformed | Tối ưu | Cao ($O(b^d)$) | Đảm bảo tìm thấy đường đi ngắn nhất. |
-| **DFS** | Uninformed | Không | Thấp ($O(bm)$) | Có thể bị lặp vô hạn, không tối ưu. |
+| **BFS** | Uninformed | Tối ưu | Cao (O(${b^d}$)) | Đảm bảo tìm thấy đường đi ngắn nhất. |
+| **DFS** | Uninformed | Không | Thấp (O(bm)) | Có thể bị lặp vô hạn, không tối ưu. |
 | **UCS** | Uninformed | Tối ưu | Cao | Tối ưu theo chi phí thực tế của đường đi. |
-| **IDS** | Uninformed | Tối ưu | Thấp ($O(bd)$) | Cân bằng hoàn hảo giữa bộ nhớ và thời gian. |
+| **IDS** | Uninformed | Tối ưu | Thấp (O(bd)) | Cân bằng hoàn hảo giữa bộ nhớ và thời gian. |
 | **Greedy** | Informed | Không | Trung bình | Tốc độ rất nhanh nhưng dễ bị sa vào cục bộ. |
 | **A\*** | Informed | Tối ưu | Cao | Hiệu quả cao nhờ hàm Heuristic $f(n)=g(n)+h(n)$. |
 | **Hill Climbing** | Local Search | Không | Rất thấp | Nhanh, nhưng dễ rơi vào cực đại địa phương. |
