@@ -1,114 +1,55 @@
-# 🤖 Vacuum Cleaner AI - Intelligent Pathfinding Agent
+# Bài Tập Trí Tuệ Nhân Tạo
 
-**Giải quyết bài toán người quét rác (Vacuum Cleaner) bằng các thuật toán tìm kiếm**
+Repository này tổng hợp 3 bài thực hành môn Trí tuệ nhân tạo. Mỗi thư mục con có README riêng để mô tả chi tiết bài toán, thuật toán và cách sử dụng.
 
----
+## Danh sách dự án
 
-## 📋 Mô tả dự án
+### 1. Máy hút bụi
 
-Dự án xây dựng một **agent thông minh** mô phỏng robot hút bụi (vacuum cleaner) trong môi trường lưới (grid) có chướng ngại vật. Agent phải tìm đường đi tối ưu để dọn sạch tất cả bụi bẩn với chi phí thấp nhất.
+Thư mục: `vacuum_cleaner/`
 
-Dự án tập trung vào việc **triển khai và so sánh** các thuật toán tìm kiếm cổ điển và heuristic trong AI:
+Mô phỏng robot hút bụi trong môi trường dạng lưới, áp dụng nhiều thuật toán tìm kiếm như BFS, DFS, UCS, A*, Hill Climbing, Simulated Annealing và các biến thể cho môi trường không xác định.
 
-- **Uninformed Search**: BFS, DFS, IDS, UCS
-- **Informed Search**: Greedy Best-First Search, A* Search
-
----
-
-## ✨ Tính năng chính
-
-- Mô hình môi trường grid động (có thể thay đổi kích thước, vị trí bụi và chướng ngại vật)
-- Triển khai đầy đủ nhiều biến thể của các thuật toán tìm kiếm
-- Giao diện đồ họa (GUI) sử dụng Pygame hoặc Tkinter để minh họa quá trình tìm đường
-- Jupyter Notebooks phân tích từng thuật toán
-- So sánh hiệu suất (số node mở rộng, chi phí đường đi, thời gian chạy)
-- Hỗ trợ nhiều loại heuristic (Manhattan, Euclidean, v.v.)
-
----
-
-## 📁 Cấu trúc dự án
+Chạy nhanh:
 
 ```bash
-Bai_Tap_AI/vacuum_cleaner/
-├── assets/                          # Ảnh, GIF minh họa giao diện
-├── jupyter/
-│   ├── 8puzzle/                     # Bài toán 8-puzzle (liên quan)
-│   ├── Agent/                       # Notebook mô hình agent
-│   ├── BFS/
-│   ├── DFS/
-│   ├── IDS/
-│   ├── UCS/
-│   └── ...                          # Các notebook phân tích thuật toán
-├── python/
-│   ├── Vacuum_Cleaner_AStar.py
-│   ├── Vacuum_Cleaner_BFS_1.py
-│   ├── Vacuum_Cleaner_BFS_2.py
-│   ├── Vacuum_Cleaner_DFS_1.py
-│   ├── Vacuum_Cleaner_DFS_2.py
-│   ├── Vacuum_Cleaner_UCS.py
-│   ├── Vacuum_Cleaner_IDS_1.py
-│   ├── Vacuum_Cleaner_IDS_2.py
-│   ├── Vacuum_Cleaner_Greedy_Search.py
-│   ├── Vacuum_Cleaner_GBF.py
-│   ├── Vacuum_GUI.py                # Giao diện đồ họa
-│   └── utils.py                     # Các hàm tiện ích (Node, State, Heuristic...)
-└── README.md
-
+python vacuum_cleaner/python/main.py
 ```
 
-## 🚀 Cách chạy dự án
-**1. Yêu cầu hệ thống**
+### 2. Caro / Tic-Tac-Toe AI
 
-Python 3.8+
-Thư viện:Bashpip install pygame numpy matplotlib jupyter
+Thư mục: `caro/`
 
-**2. Chạy chương trình chính**
+Trò chơi Tic-Tac-Toe 3x3 có giao diện Tkinter, cho phép chơi Người vs AI hoặc AI vs AI bằng Minimax, Alpha-Beta Pruning và Expectimax.
 
-cd python
-python Vacuum_GUI.py                    # Chạy giao diện đồ họa
-python Vacuum_Cleaner_AStar.py          # Chạy thuật toán A*
+Chạy nhanh:
 
-**3. Chạy Jupyter Notebooks**
+```bash
+python caro/main.py
+```
 
-cd jupyter
-jupyter notebook
-Mở các file .ipynb tương ứng với thuật toán muốn phân tích.
+### 3. Tô màu bản đồ Gia Lai
 
-## 📊 Các thuật toán đã triển khai
+Thư mục: `ToBanDo/`
 
-- BFS: Tìm đường đi ngắn nhất.
-- DFS: Tìm đường sâu
-- Iterative Deepending Search (IDS): Kết hợp ưu điểm của BFS và DFS
-- Uniform Cost Search (UCS): Tối ưu theo chi phí
-- Greedy Search: Dựa vào heiristic
-- A* Search: Tối ưu
- 
-## 🎥 Minh họa
+Bài toán tô màu bản đồ Gia Lai được mô hình hóa dưới dạng bài toán thỏa mãn ràng buộc, triển khai bằng các notebook Jupyter.
 
-(Thêm GIF từ thư mục assets/ vào đây)
-<img src="assets/demo_gui.gif" alt="Vacuum Cleaner GUI">
-<img src="assets/astar_demo.gif" alt="A* Search Animation">
-<img src="assets/comparison.gif" alt="BFS vs A* Comparison">
+Chạy nhanh:
 
-## 📈 Phân tích kết quả
+```bash
+jupyter notebook ToBanDo
+```
 
-A* thường cho kết quả tối ưu nhất về chi phí và số node mở rộng.
-BFS đảm bảo tìm đường ngắn nhất (về số bước) nhưng tốn bộ nhớ.
-IDS là giải pháp cân bằng tốt khi không biết độ sâu.
-Greedy nhanh nhưng không đảm bảo tối ưu.
+## Cấu trúc chính
 
-(Chi tiết so sánh nằm trong các Jupyter Notebook)
+```text
+Bai_Tap_AI/
+├── caro/
+├── ToBanDo/
+├── vacuum_cleaner/
+└── README.md
+```
 
-## 🛠 Công nghệ sử dụng
+## Ghi chú
 
-Ngôn ngữ: Python
-Thư viện:
-- pygame / tkinter (GUI)
-- numpy (xử lý ma trận)
-- matplotlib (vẽ biểu đồ so sánh)
-- collections, heapq (các cấu trúc dữ liệu)
-
-## 👥 Tác giả
-
-Tên sinh viên: Nguyễn Quốc Việt
-MSSV: 24110381
+Vui lòng xem README trong từng thư mục dự án nhỏ để biết mô tả chi tiết, thuật toán sử dụng và hướng dẫn chạy đầy đủ.
