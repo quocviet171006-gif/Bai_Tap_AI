@@ -36,14 +36,19 @@ Mở các tệp .ipynb bằng Jupyter Notebook hoặc VS Code.
 
 Chạy từng cell trong notebook để xem tiến trình tô màu được trực quan hóa bằng matplotlib.
 
-## 4. Kết quả mong đợi
-Mỗi thuật toán cung cấp cái nhìn khác nhau về cách giải quyết bài toán CSP:
+## 4. Minh hoạ
 
-Thời gian thực thi: So sánh tốc độ giữa các phương pháp.
+### Minh hoạ thuật toán Backtracking
+<img src="assets/BackTracking.gif" alt="Backtracking Search Animation">
 
-Độ hiệu quả: Số bước tìm kiếm/xung đột cần thiết.
+### Minh hoạ thuật toán Forward_Checking
+<img src="assets/Forward_Checking.gif" alt="Forward_Checking Search Animation">
 
-Trực quan hóa: Bản đồ được hiển thị với kết quả tô màu hoàn chỉnh qua từng bước.
+### Minh hoạ thuật toán AC_3
+<img src="assets/AC_3.gif" alt="C_3 Search Animation">
+
+### Minh hoạ thuật toán Min_conflicts
+<img src="assets/Min_conflicts.gif" alt="Min_conflicts Search Animation">
 
 ## 5. Thông tin tác giả
 Sinh viên thực hiện: Nguyễn Quốc Việt

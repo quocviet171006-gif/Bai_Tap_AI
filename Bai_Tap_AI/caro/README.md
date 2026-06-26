@@ -116,31 +116,29 @@ python caro/main.py
 
 5. Nhấn `Chơi lại` để xóa bàn cờ và bắt đầu lại.
 
-## 7. Quy ước biểu diễn bàn cờ
+## 7. Minh hoạ
 
-Bàn cờ được lưu bằng một danh sách gồm 9 phần tử:
+## Chế độ người chơi với AI
 
-```python
-[' ', ' ', ' ',
- ' ', ' ', ' ',
- ' ', ' ', ' ']
-```
+### Minh hoạ thuật toán Minimax
+<img src="assets/Minimax.gif" alt="Minimax Search Animation">
 
-Trong đó:
+### Minh hoạ thuật toán Alpha_Beta
+<img src="assets/Alpha_Beta.gif" alt="Alpha_Beta Search Animation">
 
-- `'X'`: nước đi của người chơi hoặc AI đóng vai MIN.
-- `'O'`: nước đi của AI đóng vai MAX.
-- `' '`: ô trống.
+### Minh hoạ thuật toán Expectimax
+<img src="assets/Expectimax.gif" alt="Expectimax Search Animation">
 
-Các vị trí trên bàn cờ được đánh số từ `0` đến `8`:
+## Chế độ AI với AI
 
-```text
-0 | 1 | 2
----------
-3 | 4 | 5
----------
-6 | 7 | 8
-```
+### Minh hoạ thuật toán Minimax
+<img src="assets/AI_Minimax.gif" alt="Minimax Search Animation">
+
+### Minh hoạ thuật toán Alpha_Beta
+<img src="assets/AI_Alpha_Beta.gif" alt="Alpha_Beta Search Animation">
+
+### Minh hoạ thuật toán Expectimax
+<img src="assets/AI_Expectimax.gif" alt="Expectimax Search Animation">
 
 ## 8. Điều kiện kết thúc
 
